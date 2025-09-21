@@ -359,6 +359,7 @@ class Note extends FlxSprite
 		}
 		x += offsetX;
 	}
+	
 
 	public static function initializeGlobalRGBShader(noteData:Int)
 	{
@@ -609,7 +610,7 @@ class Note extends FlxSprite
 
 	public function clipToStrumNote(myStrum:StrumNote)
 	{
-		var center:Float = myStrum.y + offsetY + Note.swagWidth / 2;
+		var center:Float = myStrum.y + myStrum.height / 2;
 		if ((mustPress || !ignoreNote) && (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)))
 		{
 			var swagRect:FlxRect = clipRect;

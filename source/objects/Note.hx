@@ -321,7 +321,6 @@ class Note extends FlxSprite
 
 			updateHitbox();
 			useRenderHeight = true;
-			autoRenderHeight = false;
 			renderHeight = frameHeight * sc;
 
 			offsetX -= width / 2;
@@ -332,7 +331,7 @@ class Note extends FlxSprite
 			if (prevNote.isSustainNote)
 			{
 				prevNote.animation.play(colArray[prevNote.noteData % colArray.length] + 'hold');
-				prevNote.autoRenderHeight = true;
+
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.05;
 				if (createdFrom != null && createdFrom.songSpeed != null)
 					prevNote.scale.y *= createdFrom.songSpeed;

@@ -1516,52 +1516,22 @@ class PlayState extends MusicBeatState
 						sustainNote.parent = swagNote;
 						unspawnNotes.push(sustainNote);
 						swagNote.tail.push(sustainNote);
-						if (sustainNote.autoRenderHeight)
-							sustainNote.renderHeight = Conductor.stepCrochet * songSpeed * 0.45;
-						
 
 						sustainNote.correctionOffset = swagNote.height / 2;
 						if (!PlayState.isPixelStage)
 						{
-							if (oldNote.isSustainNote)
-							{
-								oldNote.scale.y *= Note.SUSTAIN_SIZE / oldNote.frameHeight;
-								oldNote.scale.y /= playbackRate;
-								oldNote.resizeByRatio(curStepCrochet / Conductor.stepCrochet);
-							}
-
 							if (ClientPrefs.data.downScroll)
 								sustainNote.correctionOffset = 0;
 						}
-						else if (oldNote.isSustainNote)
-						{
-							oldNote.scale.y /= playbackRate;
-							oldNote.resizeByRatio(curStepCrochet / Conductor.stepCrochet);
-						}
-
-						if (sustainNote.mustPress)
-							sustainNote.x += FlxG.width / 2; // general offset
-						else if (ClientPrefs.data.middleScroll)
-						{
-							sustainNote.x += 310;
-							if (noteColumn > 1) // Up and Right
-								sustainNote.x += FlxG.width / 2 + 25;
-						}
 					}
 				}
+				for (hold in swagNote.tail)
+				{
+					hold.autoRenderHeight = !hold.animation.name.endsWith('end');
+					if (hold.autoRenderHeight)
+						hold.renderHeight = Conductor.stepCrochet * songSpeed * 0.45;
+				}
 
-				if (swagNote.mustPress)
-				{
-					swagNote.x += FlxG.width / 2; // general offset
-				}
-				else if (ClientPrefs.data.middleScroll)
-				{
-					swagNote.x += 310;
-					if (noteColumn > 1) // Up and Right
-					{
-						swagNote.x += FlxG.width / 2 + 25;
-					}
-				}
 				if (!noteTypes.contains(swagNote.noteType))
 					noteTypes.push(swagNote.noteType);
 

@@ -1,5 +1,6 @@
 package states;
 
+import objects.HoldSplash.HoldState;
 import backend.Highscore;
 import backend.StageData;
 import backend.WeekData;
@@ -1672,6 +1673,8 @@ class PlayState extends MusicBeatState
 
 			strumLineNotes.add(babyArrow);
 			babyArrow.playerPosition();
+			if (babyArrow.cover != null)
+				noteGroup.insert(noteGroup.members.indexOf(notes) + 1, babyArrow.cover);
 		}
 	}
 
@@ -3312,6 +3315,15 @@ class PlayState extends MusicBeatState
 		if (opponentVocals.length <= 0)
 			vocals.volume = 1;
 		strumPlayAnim(true, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
+		var strum:StrumNote = opponentStrums.members[Std.int(Math.abs(note.noteData))];
+		if (strum != null)
+		{
+			var state:HoldState = END;
+			if (note.isSustainNote && !note.animation.name.contains('end') || note.sustainLength > 0)
+				state = HOLD;
+
+			strum.cover.setState(state);
+		}
 		note.hitByOpponent = true;
 
 		stagesFunc(function(stage:BaseStage) stage.opponentNoteHit(note));

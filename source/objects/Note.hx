@@ -359,7 +359,6 @@ class Note extends FlxSprite
 		}
 		x += offsetX;
 	}
-	
 
 	public static function initializeGlobalRGBShader(noteData:Int)
 	{
@@ -552,10 +551,9 @@ class Note extends FlxSprite
 		{
 			canBeHit = false;
 
-			if (!wasGoodHit && strumTime <= Conductor.songPosition)
+			if (!wasGoodHit && strumTime <= Conductor.songPosition - (isSustainNote ? 50 : 0))
 			{
-				if (!isSustainNote || (prevNote.wasGoodHit && !ignoreNote))
-					wasGoodHit = true;
+				wasGoodHit = true;
 			}
 		}
 

@@ -3060,7 +3060,8 @@ class PlayState extends MusicBeatState
 		{
 			spr.playAnim('static');
 			spr.resetAnim = 0;
-			spr.cover.setState(END);
+			if (spr.animation.name != 'splash')
+				spr.cover.setState(END);
 		}
 		callOnScripts('onKeyRelease', [key]);
 	}
@@ -3456,7 +3457,8 @@ class PlayState extends MusicBeatState
 			if (note.isSustainNote && !note.animation.name.contains('end') || note.sustainLength > 0)
 				state = HOLD;
 			strum.cover.setState(state);
-			if(note.isSustainNote && note.animation.name.contains('end') ) {
+			if (note.isSustainNote && note.animation.name.contains('end'))
+			{
 				strum.cover.setState(SPLASH);
 			}
 		}

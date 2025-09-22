@@ -3060,7 +3060,7 @@ class PlayState extends MusicBeatState
 		{
 			spr.playAnim('static');
 			spr.resetAnim = 0;
-			if (spr.animation.name != 'splash')
+			if (spr.cover.animation.name != 'splash')
 				spr.cover.setState(END);
 		}
 		callOnScripts('onKeyRelease', [key]);

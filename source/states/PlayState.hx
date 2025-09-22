@@ -3060,6 +3060,7 @@ class PlayState extends MusicBeatState
 		{
 			spr.playAnim('static');
 			spr.resetAnim = 0;
+			spr.cover.setState(END);
 		}
 		callOnScripts('onKeyRelease', [key]);
 	}
@@ -3314,7 +3315,7 @@ class PlayState extends MusicBeatState
 
 		if (opponentVocals.length <= 0)
 			vocals.volume = 1;
-		strumPlayAnim(true, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
+		strumPlayAnim(true, Std.int(Math.abs(note.noteData)), 0.3 / playbackRate);
 		var strum:StrumNote = opponentStrums.members[Std.int(Math.abs(note.noteData))];
 		if (strum != null)
 		{
@@ -3412,7 +3413,7 @@ class PlayState extends MusicBeatState
 					spr.playAnim('confirm', true);
 			}
 			else
-				strumPlayAnim(false, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
+				strumPlayAnim(false, Std.int(Math.abs(note.noteData)), 0.3 / playbackRate);
 			vocals.volume = 1;
 
 			if (!note.isSustainNote)
@@ -3448,6 +3449,17 @@ class PlayState extends MusicBeatState
 				spawnNoteSplashOnNote(note);
 		}
 
+		var strum:StrumNote = playerStrums.members[Std.int(Math.abs(note.noteData))];
+		if (strum != null)
+		{
+			var state:HoldState = END;
+			if (note.isSustainNote && !note.animation.name.contains('end') || note.sustainLength > 0)
+				state = HOLD;
+			strum.cover.setState(state);
+			if(note.isSustainNote && note.animation.name.contains('end') ) {
+				strum.cover.setState(SPLASH);
+			}
+		}
 		stagesFunc(function(stage:BaseStage) stage.goodNoteHit(note));
 		var result:Dynamic = callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus]);
 		if (result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll)

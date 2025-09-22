@@ -18,24 +18,29 @@ class HoldSplash extends AttachedSprite
 
 		rgbShader = new PixelSplashShaderRef();
 		shader = rgbShader.shader;
-        antialiasing = tracker.antialiasing;
+		antialiasing = tracker.antialiasing;
 
 		Note.initializeGlobalRGBShader(noteData % Note.colArray.length);
 
 		rgbShader.copyValues(Note.globalRgbShaders[noteData % Note.colArray.length]);
-
+		animation.finishCallback = (s:String) -> if (s != 'idle') setState(END);
+		animation.addByPrefix('splash','holdCoverEndRGB',24,false);
 		if (!PlayState.isPixelStage)
 			rgbShader.pixelAmount = 1;
 		else if (PlayState.isPixelStage)
 		{
-			xAdd -= 6 * 3;
+			xAdd -= 6;
 			rgbShader.pixelAmount = 6;
 		}
 	}
 
 	public function setState(st:HoldState)
 	{
-		visible = st == HOLD;
+		visible = st == HOLD || st == SPLASH;
+		if (st == SPLASH)
+			animation.play('splash', true);
+		else
+			animation.play('idle', false);
 	}
 }
 
@@ -43,4 +48,5 @@ enum HoldState
 {
 	HOLD;
 	END;
+	SPLASH;
 }

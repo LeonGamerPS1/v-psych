@@ -1,10 +1,11 @@
 package objects;
 
+import flixel.addons.effects.FlxSkewedSprite;
 import backend.animation.PsychAnimationController;
 import shaders.RGBPalette;
 import shaders.RGBPalette.RGBShaderReference;
 
-class StrumNote extends FlxSprite
+class StrumNote extends FlxSkewedSprite
 {
 	public var rgbShader:RGBShaderReference;
 	public var resetAnim:Float = 0;
